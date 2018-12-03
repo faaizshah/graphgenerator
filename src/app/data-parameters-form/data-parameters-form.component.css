@@ -1,0 +1,22 @@
+pre {
+  white-space: pre-line;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.popover-body {
+  background: #94bada !important;
+  font-size:  5px
+}
+
+.fa-times-circle:hover {
+  color: #FD7F7E;
+}
+
+.badge {
+  margin: 3px;
+}
+
+

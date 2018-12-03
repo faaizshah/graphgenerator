@@ -1,0 +1,466 @@
+<body class="bg-">
+
+<div class="header">
+   <div class="py-5 text-center">
+   <h1>Cypher Query Generator for Neo4j Graph Database</h1>
+
+ </div>
+</div>   
+
+<div class="container">
+  <div class="form-group row">
+    <h4>Parameters</h4>
+  </div>
+
+  <form [formGroup]="dataParametersForm" (submit)="onSubmit()" class="needs-validation" novalidate>
+
+    <! ---------------------------------------------- >
+    <! ------------------- NODES -------------------- >
+
+    <div class="row">
+      <div class="form-group col-md-5 ">
+
+        <! --------------------------------- >
+        <! ------- NUMBER OF NODES --------- >
+
+        <div class="form-group">
+
+          <label class="col-form-label" for="nodes_number"><b>Number of Nodes</b></label>
+          <input type="number"
+                 class="form-control"
+                 id="nodes_number"
+                 placeholder="1"
+                 formControlName="nodes_number"
+          >
+          <div *ngIf="nodes_number.touched && nodes_number.errors">
+            <div class="alert alert-danger" *ngIf="nodes_number.errors.required">
+              The number of nodes is required.
+            </div>
+            <div class="alert alert-danger" *ngIf="nodes_number.errors.min">
+              The number of nodes should be at least 1.
+            </div>
+          </div>
+        </div>
+
+        <hr >
+
+        <! --------------------------------- >
+        <! --------- NODES LABELS ---------- >
+
+        <label class="col-form-label" > <b>Node Labels</b></label>
+
+        <div class="form-group ">
+          <div class="form-check ">
+            <input class="form-check-input"
+                   type="radio"
+                   name="node_labels_radio"
+                   id="number_labels_radio"
+                   value="option_number"
+                   formControlName="node_labels_radio"
+            >
+
+            <label class="form-check-label" for="number_labels_radio">
+              Choose the number of node labels
+            </label>
+            <a popover="You configure only the number of node labels you want. Then, the label names will be generated randomly (fake word)."
+               triggers="hover"
+               placement="bottom"
+            ><i class="fa fa-info-circle"></i></a>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input"
+                   type="radio"
+                   name="node_labels_radio"
+                   id="name_labels_radio"
+                   value="option_name"
+                   formControlName="node_labels_radio"
+            >
+            <label class="form-check-label" for="name_labels_radio">
+              Choose the name for each node label
+            </label>
+            <a popover="You choose the names that you want for node labels."
+               triggers="hover"
+               placement="bottom"
+            ><i class="fa fa-info-circle"></i></a>
+          </div>
+        </div>
+
+
+        <! ---- CASE CHOOSE ONLY NUMBER OF LABELS ----- >
+
+        <div class="form-group" *ngIf="node_labels_radio.value === 'option_number'">
+          <label class="col-form-label" for="node_labels_number">Number of node labels</label>
+          <input type="number"
+                 class="form-control"
+                 id="node_labels_number"
+                 placeholder="0"
+                 formControlName="node_labels_number"
+          >
+          <div *ngIf="node_labels_number.touched && node_labels_number.errors">
+            <div class="alert alert-danger" *ngIf="node_labels_number.errors.required">
+              The number of labels should be at least 1.
+            </div>
+            <div class="alert alert-danger" *ngIf="node_labels_number.errors.min">
+              The number of labels should be at least 1.
+            </div>
+          </div>
+        </div>
+
+
+        <! ---- CASE CHOOSE NAMES OF LABELS ----- >
+
+        <div class="form-group" *ngIf="node_labels_radio.value === 'option_name'">
+          <form #labelForm="ngForm" (ngSubmit)="submitNodesLabel(labelForm)">
+            <label class="col-form-label" for="nodes_labels">Name of node labels</label>
+            <div class="input-group">
+              <input type="text"
+                     class="form-control"
+                     id="nodes_labels"
+                     placeholder="label name"
+                     aria-label="label name"
+                     aria-describedby="basic-addon2"
+                     name="nodes_labels"
+                     ngModel
+                     required
+              >
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">Add</button>
+              </div>
+            </div>
+            <div class="chipsContainer">
+             <span class="badge badge-pill badge-secondary" *ngFor="let label of node_labels">{{label}}
+               <a (click)="deleteNodesLabel(label)">
+                <i class="fa fa-times-circle fa-inverse"></i>
+               </a>
+             </span>
+            </div>
+          </form>
+        </div>
+
+        <hr >
+
+        <hr >
+
+        <! --------------------------------- >
+        <! --------- node property keys---------- >
+
+        <label class="col-form-label" ><b>Nodes Properties</b></label>
+
+        <div class="form-group ">
+          <div class="form-check ">
+            <input class="form-check-input"
+                   type="radio"
+                   name="node_property_radio"
+                   id="number_node_property_radio"
+                   value="option_number"
+                   formControlName="node_property_radio"
+            >
+
+            <label class="form-check-label" for="number_node_property_radio">
+              Choose the number of node properties
+            </label>
+            <a popover="You configure only the number of node properties you want. Then, the property names will be generated randomly (fake word)."
+               triggers="hover"
+               placement="bottom"
+            ><i class="fa fa-info-circle"></i></a>
+
+          </div>
+          <div class="form-check">
+            <input class="form-check-input"
+                   type="radio"
+                   name="node_property_radio"
+                   id="name_node_property_radio"
+                   value="option_name"
+                   formControlName="node_property_radio"
+            >
+            <label class="form-check-label" for="name_node_property_radio">
+              Choose the name for each node property key
+            </label>
+            <a popover="You choose the names that you want for node properties."
+               triggers="hover"
+               placement="bottom"
+            ><i class="fa fa-info-circle"></i></a>
+          </div>
+        </div>
+
+
+        <! ---- CASE choose only number of properties ----- >
+
+        <div class="form-group" *ngIf="node_property_radio.value === 'option_number'">
+          <label class="col-form-label" for="node_property_number">Number of node properties</label>
+          <input type="number"
+                 class="form-control"
+                 id="node_property_number"
+                 placeholder="0"
+                 formControlName="node_property_number"
+          >
+          <div *ngIf="node_property_number.touched && node_property_number.errors">
+            <div class="alert alert-danger" *ngIf="node_property_number.errors.required">
+              The number of properties is required.
+            </div>
+            <div class="alert alert-danger" *ngIf="node_property_number.errors.min">
+              The number of properties per node should be at least 1.
+            </div>
+             <div class="alert alert-danger" *ngIf="node_property_number.errors.max">
+              The number of properties per node should be at maximum 100.
+            </div>
+          </div>
+        </div>
+
+
+        <! ---- CASE choose only name of properties ----- >
+
+        <div class="form-group" *ngIf="node_property_radio.value === 'option_name'">
+          <form #propertyForm="ngForm" (ngSubmit)="submitNodeProperties(propertyForm)">
+            <label class="col-form-label" for="nodes_properties">Name of node properties</label>
+            <div class="input-group">
+              <input type="text"
+                     class="form-control"
+                     id="nodes_properties"
+                     placeholder="property name"
+                     aria-label="property name"
+                     aria-describedby="basic-addon2"
+                     name="nodes_properties"
+                     ngModel
+                     required
+              >
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">Add</button>
+              </div>
+            </div>
+            <div class="chipsContainer">
+             <span class="badge badge-pill badge-secondary" *ngFor="let property of node_property_keys">{{property}}
+               <a (click)="deleteNodeProperty(property)">
+                <i class="fa fa-times-circle fa-inverse"></i>
+               </a>
+             </span>
+            </div>
+          </form>
+        </div>
+
+        <hr >
+        <hr >
+   
+
+        <label class="col-form-label" ><b>Distribution of relationships between nodes</b></label>
+
+        <div class="form-group">
+          <div class="form-check ">
+            <input class="form-check-input"
+                   type="radio"
+                   name="distribution_relationships_radio"
+                   id="uniform_distribution_relationships"
+                   value="option_uniform"
+                   formControlName="distribution_relationships_radio"
+            >
+            <label class="form-check-label" for="uniform_distribution_relationships">
+              Uniform distribution
+            </label>
+            <a popover="The number of relationships is fairly divided."
+               triggers="hover"
+               placement="bottom"
+            ><i class="fa fa-info-circle"></i></a>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input"
+                   type="radio"
+                   name="distribution_relationships_radio"
+                   id="non_uniform_distribution_relationships"
+                   value="option_non_uniform"
+                   formControlName="distribution_relationships_radio"
+            >
+            <label class="form-check-label" for="non_uniform_distribution_relationships">
+              Non-uniform distribution
+            </label>
+            <a popover="Some nodes have much more relationships than others."
+               triggers="hover"
+               placement="bottom"
+            ><i class="fa fa-info-circle"></i></a>
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+
+      <! ---------------------------------------------- >
+      <! --------------- RELATIONSHIPS ---------------- >
+
+      <div class="form-group col-md-5 offset-md-1">
+
+        <! -------------------------------------- >
+        <! ------- RELATIONSHIPS NUMBER --------- >
+
+        <div class="form-group">
+          <label class="col-form-label" for="relationships_number"><b>Number of relationships</b></label>
+          <input type="number"
+                 class="form-control"
+                 id="relationships_number"
+                 placeholder="0"
+                 formControlName="relationships_number"
+          >
+
+          <div *ngIf="relationships_number.touched && relationships_number.errors">
+            <div class="alert alert-danger"
+                 *ngIf="relationships_number.errors.required">
+              The number of relationships is required.
+            </div>
+            <div class="alert alert-danger"
+                 *ngIf="relationships_number.errors.min">
+              The number of relationships should be a positive number.
+            </div>
+          </div>
+        </div>
+
+        <hr >
+        <! -------------------------------------- >
+        <! -------- RELATIONSHIPS TYPES --------- >
+
+        <label class="col-form-label" ><b>Relationship Types</b></label>
+
+        <div class="form-group">
+          <div class="form-check ">
+            <input class="form-check-input"
+                   type="radio"
+                   name="relationship_types_radio"
+                   id="number_types_radio"
+                   value="option_number"
+                   formControlName="relationship_types_radio"
+            >
+            <label class="form-check-label" for="number_types_radio">
+              Choose the number of relationship types
+            </label>
+            <a popover="You configure only the number of relationship types you want. Then, the type names will be generated randomly (fake word)."
+               triggers="hover"
+               placement="bottom"
+            ><i class="fa fa-info-circle"></i></a>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input"
+                   type="radio"
+                   name="relationship_types_radio"
+                   id="name_types_radio"
+                   value="option_name"
+                   formControlName="relationship_types_radio"
+            >
+            <label class="form-check-label" for="name_types_radio">
+              Choose the name for each relationship type
+            </label>
+            <a popover="You choose the names that you want for relationship types."
+               triggers="hover"
+               placement="bottom"
+            ><i class="fa fa-info-circle"></i></a>
+          </div>
+        </div>
+
+        <! ---- CASE CHOOSE ONLY NUMBER OF TYPES ----- >
+
+        <div class="form-group" *ngIf="relationship_types_radio.value === 'option_number'">
+          <label class="col-form-label" for="relationship_types_number">Number of relationship types</label>
+          <input type="number"
+                 class="form-control"
+                 id="relationship_types_number"
+                 placeholder="0"
+                 formControlName="relationship_types_number"
+          >
+          <div *ngIf="relationships_number.touched && relationships_number.errors">
+            <div class="alert alert-danger"
+                 *ngIf="relationships_number.errors.required">
+              The number of relationships should be at least 1.
+            </div>
+            <div class="alert alert-danger"
+                 *ngIf="relationships_number.errors.min">
+              The number of relationships should be at least 1.
+            </div>
+          </div>
+        </div>
+
+        <! ---- CASE CHOOSE NAMES OF TYPE ----- >
+
+        <div class="form-group" *ngIf="relationship_types_radio.value === 'option_name'">
+          <form #RelationshipsTypeForm="ngForm" (ngSubmit)="submitRelationshipsType(RelationshipsTypeForm)">
+            <label class="col-form-label" for="relationships_type">Name of relationship types</label>
+            <div class="input-group">
+              <input type="text"
+                     class="form-control"
+                     id="relationships_type"
+                     placeholder="type name"
+                     aria-label="type name"
+                     aria-describedby="basic-addon2"
+                     name="relationships_type"
+                     ngModel
+                     required
+              >
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">Add</button>
+              </div>
+            </div>
+            <div class="chipsContainer">
+             <span class="badge badge-pill badge-secondary" *ngFor="let type of relationship_types">{{type}}
+               <a (click)="deleteRelationshipsType(type)">
+               <i class="fa fa-times-circle fa-inverse"></i>
+             </a>
+             </span>
+            </div>
+          </form>
+        </div>
+
+      </div>
+      <! Relationship --------------------------------------- >
+
+    </div>
+    <! Form --------------------------------------- >
+
+    
+   
+   
+
+    <button class="btn btn-primary btn-lg btn-block col-sm-3" type="submit" [disabled]="!dataParametersForm.valid">
+      Generate Cypher
+    </button>
+       <hr class="mb-2">
+      <! ----------------Adding button------------------------------ >
+
+    <button (click)="onClickMe()">Export to File </button>
+ <! ---------------------------------------------- >
+      
+   <hr class="mb-4">
+
+  <button class="btn btn-default"
+          type="button"
+          ngxClipboard
+          [cbContent]="dataGenerated"
+          (cbOnSuccess)="isDataCopied = true"
+          [class.btn-success]="isDataCopied"
+  >copy</button>
+
+
+  </form>
+
+
+
+  <! ---------------------------------------------- >
+  <! -------------- DATA GENERATED --------------- >
+  <pre class="card">
+          <code class="card-body">
+            {{dataGenerated}}
+          </code>
+        </pre>
+
+  <! ---------------------------------------------- >
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">Graph-cypher-generator</p>
+    <ul class="list-inline">
+      <li class="list-inline-item">Contact: fado@lirmm.fr</li>
+
+    </ul>
+  </footer>
+</div>
+</body>
+
