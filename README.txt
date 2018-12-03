@@ -29,3 +29,8 @@ Install node modules:
 
 $ npm install
 
+Open the Application:
+
+$ ng serve --open
+
+It will open the application on http://localhost:4200/
