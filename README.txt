@@ -1,4 +1,4 @@
-Graph Generator
+Graph Generator Configuration details:
 
 Angular CLI: 6.1.3
 
