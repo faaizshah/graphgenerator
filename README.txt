@@ -10,7 +10,7 @@ OS: linux x64 (Ubuntu 16.04)
 Angular: 5.2.11
 
 
-Pre-requisties:
+Pre-requisities:
 -----------------
 
 Node.js
