@@ -1,4 +1,5 @@
 import { Locale } from '../locale/locale.class';
+export declare function initDayOfWeek(): void;
 export declare function parseWeekday(input: string | number, locale: Locale): number;
 export declare function parseIsoWeekday(input: string | number, locale?: Locale): number;
 export declare function getSetDayOfWeek(date: Date, input: number, opts: {

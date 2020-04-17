@@ -1,1 +1,1 @@
-export {};
+export declare function initTimestamp(): void;

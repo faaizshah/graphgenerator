@@ -5,7 +5,10 @@
     "types": []
   },
   "exclude": [
-    "src/test.ts",
+    "test.ts",
     "**/*.spec.ts"
-  ]
+  ]<% if (experimentalIvy) { %>,
+  "angularCompilerOptions": {
+    "enableIvy": "ngtsc"
+  }<% } %>
 }

@@ -1,1 +1,1 @@
-export {};
+export declare function initHour(): void;

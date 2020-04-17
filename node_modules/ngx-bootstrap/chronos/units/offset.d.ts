@@ -1,4 +1,5 @@
 import { DateParsingConfig } from '../create/parsing.types';
+export declare function initOffset(): void;
 export declare function cloneWithOffset(input: Date, date: Date, config?: DateParsingConfig): Date;
 export declare function getDateOffset(date: Date): number;
 export declare function getUTCOffset(date: Date, config?: DateParsingConfig): number;
