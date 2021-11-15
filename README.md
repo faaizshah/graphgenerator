@@ -1,4 +1,5 @@
-Graph Generator Configuration details:
+# Graph Generator Configuration details
+
 ---------------------------------------
 
 Angular CLI: 6.1.3
@@ -9,8 +10,8 @@ OS: linux x64 (Ubuntu 16.04)
 
 Angular: 5.2.11
 
+## 1. Pre-requisities
 
-Pre-requisities:
 -----------------
 
 Node.js
@@ -18,31 +19,35 @@ Node.js
 $ sudo apt-install nodejs
 $ sudo apt-install npm
 
-Check versions for verifying successful install:
+## 2. Check versions for verifying successful install
+
 --------------------------------------------------
 
 $ node -v
 $ npm -v
 
-Install FileSaver.js, for saving files on the client-side:
+## 3. Install FileSaver.js, for saving files on the client-side
+
 -----------------------------------------------------------
 
 $ npm install file-saver --save
 
+## 4. Install node modules
 
-Install node modules:
 -----------------------
 
 $ npm install
 
-Open the Application:
+## 5. Open the Application
+
 -----------------------
 
 $ ng serve --open
 
-It will open the application on http://localhost:4200/
+It will open the application on <http://localhost:4200/>
 
-Web interface URL:
+## 6. Web interface URL
+
 --------------------
 
-https://faaizshah.github.io/graphgenerator/
+<https://faaizshah.github.io/graphgenerator/>
